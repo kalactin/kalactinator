@@ -16,15 +16,21 @@ if team2skill <= 1:
   team2skill = 1
 
 # assign base values
-baseAttacks = 29
-randCoefficient = 0.3
-rankCoefficient = 0.7
-pGoalCeilingSuperior = 0.850
-pGoalCeilingInferior = 0.850
-pGoalFloorSuperior = 0.015
-pGoalFloorInferior = 0.015
+baseAttacks = 40
+ratioEffect = 0.5
+randCoefficient = 0.4
+rankCoefficient = 0.6
+pGoalCeiling = 0.4
+pGoalFloor = 0.05
 chanceZeroToMaxRankVictory = 0.05
 hcaEffect = 0.07
+periods = 2
+styleEffect = 0.008
+periodModifier = 1/periods
+
+# generate style Modification
+overallStyle = team1style + team2style
+styleValue = overallStyle * styleEffect
 
 # find pGoal of Teams
 
@@ -43,7 +49,33 @@ if factor2 > factor2comparator:
 if factor2 < .111111:
    factor2 = .15
 
-attackModifier1 = (factor1 * 15) + baseAttacks
-attackModifier2 = (factor2 * 15) + baseAttacks
+attackModifier1 = (factor1 * 15) + baseAttacks * periodModifier
+attackModifier2 = (factor2 * 15) + baseAttacks * periodModifier
 
-pGoal1 = (1 - factor1) * ((team1skill/team2skill * rankCoefficient))
+pGoal1 = (0.4 - factor1) * ((team1skill/team2skill * rankCoefficient)) + (hcaEffect) + styleValue
+pGoal2 = (0.4 - factor2) * ((team2skill/team1skill * rankCoefficient)) + styleValue
+
+if pGoal1 >= pGoalCeiling:
+  pGoal1 = pGoalCeiling
+if pGoal2 >= pGoalCeiling:
+  pGoal2 = pGoalCeiling
+  
+if pGoal1 <= pGoalFloor:
+  pGoal1 = pGoalFloor
+if pGoal2 <= pGoalFloor:
+  pGoal2 = pGoalFloor
+  
+periodScore1 = round((pGoal1 * attackModifier1 + random.randint(0,7))* periodModifier)
+periodScore2 = round((pGoal2 * attackModifier2 + random.randint(0,7))* periodModifier)
+
+score1 = periodScore1 * periods
+score2 = periodScore2 * periods 
+
+print(factor1)
+print(attackModifier1)
+print(factor2)
+print(attackModifier2)
+print (pGoal1)
+print(pGoal2)
+print(styleValue)
+print(team1, score1, "-", score2, team2)
