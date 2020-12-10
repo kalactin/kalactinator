@@ -10,6 +10,15 @@ team1style = float(input("Team 1 Style: "))
 team2style = float(input("Team 2 Style: "))
 maxrank = float(input("Max Rank: "))
 
+if maxrank < team1skill:
+  print("SKILL EXCEEDS MAX RANK PLEASE REENTER YOUR TEAMS")
+if maxrank < team2skill:
+  print("SKILL EXCEEDS MAX RANK PLEASE REENTER YOUR TEAMS")
+if team1style > 5.00:
+  print("YOUR STYLE MODIFIERS HAVE BEEN INPUT WRONG. PLEASE RESCORINATE")
+if team2style > 5.00: 
+  print("YOUR STYLE MODIFIERS HAVE BEEN INPUT WRONG. PLEASE RESCORINATE")
+
 if team1skill <= 1:
   team1skill = 1
 if team2skill <= 1:
@@ -71,11 +80,10 @@ periodScore2 = round((pGoal2 * attackModifier2 + random.randint(0,7))* periodMod
 score1 = periodScore1 * periods
 score2 = periodScore2 * periods 
 
-print(factor1)
-print(attackModifier1)
-print(factor2)
-print(attackModifier2)
-print (pGoal1)
-print(pGoal2)
-print(styleValue)
+if score1 == score2:
+  OTscore1 = score1 + random.randint(1,4)
+  OTscore2 = score2 + random.randint(1,4)
+  print("Game went to Overtime")
+  print(team1, OTscore1, "-", OTscore2, team2)
+print("")
 print(team1, score1, "-", score2, team2)
